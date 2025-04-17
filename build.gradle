@@ -1,0 +1,112 @@
+
+plugins {
+  id 'java'
+  id 'application'
+  id 'org.javamodularity.moduleplugin' version '1.8.12'
+  id 'org.openjfx.javafxplugin' version '0.0.13'
+  id 'org.beryx.jlink' version '2.25.0'
+}
+
+group 'hsmw'
+version '1.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.10.2'
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+tasks.withType(JavaCompile).configureEach {
+  options.encoding = 'UTF-8'
+}
+
+application {
+  mainModule = 'hsmw.creator'
+  mainClass = 'hsmw.creator.APMCreator'
+}
+
+javafx {
+  version = '21'
+  modules = ['javafx.controls', 'javafx.fxml','javafx.web']
+}
+
+dependencies {
+  implementation group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.11.0'
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+useJUnitPlatform()}
+
+final def extension = jlink {
+  imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+  options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+  launcher {
+    noConsole = true
+    name = 'app'
+  }
+
+
+  def currentOs
+  currentOs = org.gradle.internal.os.OperatingSystem.current()
+
+
+  jpackage {
+    installerOptions += ['--resource-dir', "src/main/resouces"]
+
+    if (currentOs.windows) {
+      installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
+    } else if (currentOs.linux) {
+      installerOptions += ['--linux-package-name', 'creator', '--linux-shortcut']
+    } else if (currentOs.macOsX) {
+      installerOptions += ['--mac-package-name', 'creator']
+    }
+  }
+
+
+}
+
+
+jlinkZip {
+  group = 'distribution'
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
+jar {
+  manifest {
+    attributes(
+            'Main-Class': 'hsmw.creator.APMCreator'
+    )
+  }
+}
+
+tasks.named('jpackage') {
+
+}
+
+tasks.jpackage.doFirst {
+  def creatorJpackageDirectory = "build/jpackage/"
+  if (currentOs.windows) {
+    creatorJpackageDirectory += "creator"
+  } else if (currentOs.linux) {
+    creatorJpackageDirectory += "creator/lib"
+  } else if (currentOs.macOsX) {
+    creatorJpackageDirectory += "creator.app/Contents/MacOS"
+  }
+}
+
+
+
+
