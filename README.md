@@ -35,17 +35,6 @@ sudo  xattr -dr com.apple.quarantine /Applications/APM Creator.app
 ```
 The app should then start without any further complaints. 
 
-### Installation via Homebrew
-
-1. Open the Terminal.
-2. Install APM Creator with the following command:
-
-```bash
-brew install --cask bocian67/APM Creator/APM Creator
-```
-
-3. After installation, APM Creator can be launched directly from the Applications folder.
-
 ## Windows
 ### Installation via .exe File
 
