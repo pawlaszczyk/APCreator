@@ -20,8 +20,8 @@ repositories {
   mavenCentral()
 }
 
-sourceCompatibility = '21'
-targetCompatibility = '21'
+//sourceCompatibility = '21'
+//targetCompatibility = '21'
 
 sourceSets {
     main {
