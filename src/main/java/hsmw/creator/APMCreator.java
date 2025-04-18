@@ -113,6 +113,11 @@ public class APMCreator extends Application {
             System.exit(0);
         });
 
+        // Create main layout
+        BorderPane master = new BorderPane();
+        master.setPadding(new Insets(5));
+
+
         //Set icon on the taskbar/dock
         if (Taskbar.isTaskbarSupported()) {
             var taskbar = Taskbar.getTaskbar();
@@ -141,7 +146,7 @@ public class APMCreator extends Application {
         });
 
         MenuItem mntAbout = new MenuItem("About...");
-        mntAbout.setOnAction(e -> new AboutDialog(codeArea));
+        mntAbout.setOnAction(e -> new AboutDialog(master));
 
         SeparatorMenuItem sep = new SeparatorMenuItem();
 
@@ -157,9 +162,6 @@ public class APMCreator extends Application {
         menuBar.getMenus().addAll(mnFiles, mnInfo);
 
 
-        // Create main layout
-        BorderPane master = new BorderPane();
-        master.setPadding(new Insets(5));
 
         // Create code editor area with syntax highlighting
         codeArea = new CodeArea();
