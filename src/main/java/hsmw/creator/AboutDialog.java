@@ -54,17 +54,15 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
     public AboutDialog(javafx.scene.Node root) {
 
         this.root = root;
-            var img = new Image(Objects.requireNonNull(AboutDialog.class.getResource("/filmrole.png")).toExternalForm());
-            ImageView view = new ImageView(img);
-            dialogPane.setGraphic(view);
+        var img = new Image(Objects.requireNonNull(AboutDialog.class.getResource("/filmrole.png")).toExternalForm());
+        ImageView view = new ImageView(img);
+        dialogPane.setGraphic(view);
 
         dialogPane.getButtonTypes().addAll(ButtonType.OK);
 
         createLayout();
 
         setTitle("About this Program");
-
-
         show();
     }
 
@@ -74,7 +72,7 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                    desktop.browse(URI.create("https://www.staff.hs-mittweida.de/~pawlaszc/"));
+                    desktop.browse(URI.create("https://github.com/pawlaszczyk/APCreator"));
                 }
             }
         } catch (IOException | InternalError err) {
@@ -97,7 +95,7 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
 
 
         Hyperlink link = new Hyperlink();
-        link.setText("https://www.staff.hs-mittweida.de/~pawlaszc/");
+        link.setText("https://github.com/pawlaszczyk/APCreator");
         link.setOnAction(AboutDialog::handle);
 
 
