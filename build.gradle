@@ -5,8 +5,6 @@ plugins {
   id 'org.javamodularity.moduleplugin' version '1.8.12'
   id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.runtime' version '1.13.1'
-
-
 }
 
 def currentOs = org.gradle.internal.os.OperatingSystem.current()
@@ -64,7 +62,7 @@ dependencies {
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(22)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 
