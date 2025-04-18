@@ -3,12 +3,11 @@
  */
 module hsmw.creator {
 
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.web;
+    requires static javafx.controls;
+    requires static javafx.fxml;
+    requires static javafx.web;
     requires java.desktop;
     requires org.fxmisc.richtext;
 
-    //opens hsmw.creator to javafx.fxml;
     exports hsmw.creator;
 }
