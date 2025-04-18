@@ -31,10 +31,10 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
-      - name: Set up JDK 20
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '20'
+          java-version: '21'
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -46,11 +46,11 @@ jobs:
       - name: Create MacOS file name
         if: startsWith(matrix.os, 'mac')
         run: |
-          echo "OUTPUT_FILE_NAME=fqlite-${{ needs.get-version.outputs.version }}-macOS-$(uname -m).dmg" >> $GITHUB_ENV
+          echo "OUTPUT_FILE_NAME=apcreator-${{ needs.get-version.outputs.version }}-macOS-$(uname -m).dmg" >> $GITHUB_ENV
       - name: Create Ubuntu file name
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          echo "OUTPUT_FILE_NAME=fqlite-${{ needs.get-version.outputs.version }}-$(uname -m).deb" >> $GITHUB_ENV
+          echo "OUTPUT_FILE_NAME=apcreator-${{ needs.get-version.outputs.version }}-$(uname -m).deb" >> $GITHUB_ENV
       - name: Create MacOS installer
         if: startsWith(matrix.os, 'mac')
         run: |
@@ -67,7 +67,7 @@ jobs:
         if: startsWith(matrix.os, 'windows')
         run: |
           $env:Path += ";%cd%\wix314-binaries"; .\gradlew jpackage --info --stacktrace
-          $file_name = "fqlite-${{ needs.get-version.outputs.version }}-windows.exe"
+          $file_name = "apcreator-${{ needs.get-version.outputs.version }}-windows.exe"
           echo "OUTPUT_FILE_NAME=$file_name" >> $env:GITHUB_ENV
           $exe = Get-ChildItem build\jpackage\*.exe | Select-Object -First 1
           $file = Rename-Item -Path "$exe" -NewName "$file_name" -PassThru
@@ -86,33 +86,7 @@ jobs:
           name: "${{ env.OUTPUT_FILE_NAME }}"
           path: "${{ env.OUTPUT_FILE }}"
           overwrite: true
-          retention-days: 14
-        ##########
-        # Package artefacts
-        ##########
-        #####
-        # Windows - Chocolatey package
-        #####
-      - name: Prepare chocolatey package installer
-        if: startsWith(matrix.os, 'windows')
-        env:
-          VERSION: ${{ needs.get-version.outputs.version }}
-        run: |
-          cd packaging\choco\
-          ./replace_config.ps1
-          cd ..\..\
-      - name: Generate chocolatey package
-        if: startsWith(matrix.os, 'windows')
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: pack packaging/choco/fqlite/fqlite.nuspec --version ${{ needs.get-version.outputs.version }}
-      - uses: actions/upload-artifact@v4
-        if: startsWith(matrix.os, 'windows')
-        with:
-          name: "fqlite-${{ needs.get-version.outputs.version }}.nupkg"
-          path: "fqlite*.nupkg"
-          overwrite: true
-          retention-days: 14
+          retention-days: 14    
   publish:
     if: github.event.pull_request.merged == true
     name: Publish release artefacts
@@ -144,15 +118,4 @@ jobs:
           make_latest: true
           files: |
             artifacts/*
-      - name: Upload files to FTP Server
-        uses: Dylan700/sftp-upload-action@latest
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          delete: 'true'
-          ignore: |
-            *.nupkg
-          uploads: |
-            artifacts/ => ${{ secrets.FTP_UPLOAD_PATH }}
+      
