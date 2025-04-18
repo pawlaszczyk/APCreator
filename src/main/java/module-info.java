@@ -1,4 +1,7 @@
-module hsmw.apmcreator {
+/**
+ * Module info for the hsmw.creator App.
+ */
+module hsmw.creator {
 
     requires javafx.controls;
     requires javafx.fxml;
@@ -6,6 +9,6 @@ module hsmw.apmcreator {
     requires java.desktop;
     requires org.fxmisc.richtext;
 
-    opens hsmw.creator to javafx.fxml;
+    //opens hsmw.creator to javafx.fxml;
     exports hsmw.creator;
 }
