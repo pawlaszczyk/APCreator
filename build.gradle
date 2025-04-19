@@ -82,7 +82,7 @@ runtime {
     }
 
     jpackage {
-        installerOptions += ['--resource-dir', "resources"]
+        installerOptions += ['--resource-dir','--verbose',"resources"]
 
         if (currentOs.windows) {
             installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut']
