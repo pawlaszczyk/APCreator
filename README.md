@@ -53,10 +53,11 @@ https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct
 Ensure that the path to the model file is set correctly in the settings dialogue.
 
 <p align="center">
-  <img src="APMCreator_Settings.png?raw=true" alt="LLM Agent with prompt"/>
+  <img src="APMCreator_Settings.png?raw=true" alt="LLM Agent with prompt" width="200"/>
 </p>
 
-#Technical Background
+# Technical Background
+
 An overview article highlighting the technical background of AutoPodMobile and APCreator can be retrieved from
 
 Dirk Pawlaszczyk, Philipp Engler, Ronny Bodach, Christian Hummert, Margaux Michel, Ralf Zimmermann,
