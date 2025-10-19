@@ -19,7 +19,7 @@ books, articles, and other sources. Through this training, it learns patterns in
 grammar rules, facts about the world, and even reasoning patterns.
 
 <p align="center">
-  <img src="APMCreator_AI.png?raw=true" alt="LLM Agent with prompt"/>
+  <img src="APMCreator_AI.png?raw=true" alt="LLM Agent with prompt" width="600"/>
 </p>
 
 ### Prerequisites
@@ -53,7 +53,7 @@ https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct
 Ensure that the path to the model file is set correctly in the settings dialogue.
 
 <p align="center">
-  <img src="APMCreator_Settings.png?raw=true" alt="LLM Agent with prompt" width="200"/>
+  <img src="APMCreator_Settings.png?raw=true" alt="LLM Agent with prompt" width="400"/>
 </p>
 
 # Technical Background
