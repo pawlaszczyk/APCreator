@@ -1,4 +1,4 @@
-package hsmw.creator;
+package apm;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -39,7 +39,7 @@ import javafx.scene.paint.Color;
 */
 
 /**
- * Brings up a simple About-FontDialog with application information.
+ * Brings up a simple About-Dialogue with application information.
  *
  * @author Dirk Pawlaszczyk
  *
@@ -86,7 +86,7 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
         dialogPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
 
         this.setContentText("""
-                APM Creator - The Storyboard Editor, Version 0.1
+                APM Creator - The Storyboard Editor, Version 1.2
                 Author: Dirk Pawlaszczyk\s
                 
                 Mittweida University of Applied Sciences
@@ -321,13 +321,10 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);
 
-
-
-
-        //content.getChildren().add(dialogPane);
         TextArea ta = new TextArea();
         ta.setText("""
-                APM Creator - The Storyboard Editor Version 0.1
+                APM Creator - The Storyboard Editor Version \s""" + Global.VERSION + """
+                \n
                 Author: Dirk Pawlaszczyk\s
                 
                 Mittweida University of Applied Sciences
@@ -337,7 +334,7 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
                 
                 APM Creator is licensed under the Apache License
                 Version 2.0, January 2004
-                You can modify or redistribute it under the conditions of these license.
+                You can modify or redistribute it under the conditions of this license.
                 """
         );
 
@@ -358,7 +355,7 @@ public class AboutDialog extends javafx.scene.control.Dialog<Object>{
         getDialogPane().contentProperty().set(content);
 
 
-        // Set expandable Exception into the dialog pane.
+        // Set expandable Exception into the dialogue pane.
         getDialogPane().setExpandableContent(expContent);
 
     }

@@ -1,8 +1,9 @@
-package hsmw.creator;
+package apm;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +15,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
@@ -28,24 +31,31 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 /**
- * With the help of this small program it is possible to create scripts for the data population
- * tool AutoPodMobile. The script is a mermaid.js script. For visualization, mermaid.js is also
+ * With the help of this small program, it is possible to create scripts for the data population
+ * tool AutoPodMobile. The script is a mermaid.js script. For visualisation, mermaid.js is also
  * used in conjunction with a <code>Webview</code> object.
  *
- * @author D. Pawlaszczyk
- * @version 0.1
+ * Original Author:  Dirk Pawlaszczyk
+ *
+ * @version 0.5
  */
 public class APMCreator extends Application {
 
@@ -209,6 +219,7 @@ public class APMCreator extends Application {
         Button saveButton = new Button();
         Button clearButton = new Button();
         Button previewButton = new Button();
+        Button llmButton = new Button();
 
         Label logoLabel = new Label();
         String s = Objects.requireNonNull(APMCreator.class.getResource("/filmrole.png")).toExternalForm();
@@ -232,12 +243,31 @@ public class APMCreator extends Application {
         clearButton.setGraphic(iv);
         clearButton.setTooltip(new Tooltip("Clear editor window"));
 
-
         String sSync;
         sSync = Objects.requireNonNull(APMCreator.class.getResource("/sync_small.png")).toExternalForm();
         iv = new javafx.scene.image.ImageView(sSync);
         previewButton.setGraphic(iv);
         previewButton.setTooltip(new Tooltip("Refresh preview"));
+
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.VERTICAL);
+
+        String sAI;
+        sAI = Objects.requireNonNull(APMCreator.class.getResource("/cognition_small.png")).toExternalForm();
+        iv = new javafx.scene.image.ImageView(sAI);
+        llmButton.setGraphic(iv);
+        llmButton.setTooltip(new Tooltip("Open LLM-Window"));
+        llmButton.setOnAction(e -> showLLMWindow());
+
+        Separator separatorB = new Separator();
+        separatorB.setOrientation(Orientation.VERTICAL);
+
+        String sExit = Objects.requireNonNull(APMCreator.class.getResource("/exit_small.png")).toExternalForm();
+        Button exitBtn = new Button();
+        iv = new ImageView(sExit);
+        exitBtn.setGraphic(iv);
+        exitBtn.setTooltip(new Tooltip("Exit APMCreator"));
+        exitBtn.setOnAction(e->{Platform.exit(); System.exit(0);});
 
 
         // Status label
@@ -257,7 +287,7 @@ public class APMCreator extends Application {
         HBox buttonBar = new HBox(10);
         buttonBar.setAlignment(Pos.CENTER_LEFT);
         buttonBar.setPadding(new Insets(0, 0, 0, 0));
-        buttonBar.getChildren().addAll(openButton, saveButton, clearButton, previewButton, statusLabel);
+        buttonBar.getChildren().addAll(openButton, saveButton, clearButton, previewButton, separator, llmButton, exitBtn, separatorB, statusLabel);
 
 
         // Create scrollable container for code area
@@ -288,7 +318,6 @@ public class APMCreator extends Application {
         HBox.setHgrow(editorBox, Priority.ALWAYS);
         HBox.setHgrow(previewBox, Priority.ALWAYS);
 
-
         BorderPane top = new BorderPane();
         top.setPadding(new Insets(0));
         top.setLeft(buttonBar);
@@ -301,7 +330,7 @@ public class APMCreator extends Application {
         master.setCenter(splitPane);
 
         HBox statusline = new HBox(10);
-        Label slabel = new Label("version 0.1");
+        Label slabel = new Label("version 1.2");
         statusline.getChildren().add(slabel);
         statusline.setMaxHeight(32);
 
@@ -321,8 +350,66 @@ public class APMCreator extends Application {
 
         primaryStage.show();
 
-        // Initialize the web view with basic HTML template
+        //Initialise the web view with a basic HTML template
         initializeWebView();
+    }
+
+    private void showLLMWindow() {
+
+        Path path = Paths.get(System.getProperty("user.home"), Global.CONFIG_FILE);
+
+        if (Files.exists(path)) {
+            // file exists
+            Properties props = new Properties();
+            try (InputStream input = new FileInputStream(Global.configPath.toFile())) {
+                props.load(input);
+                String model_path = props.getProperty("model_path", "");
+                //There is a config file with a path to the model inside
+                if (!model_path.isEmpty()) {
+
+                    Path p = Paths.get(model_path);
+
+                    // model path is valid since the file exists
+                    if (Files.exists(p)) {
+                        LLMWindow llmw = new LLMWindow(this);
+                        Stage configstage = new Stage();
+                        configstage.initModality(Modality.APPLICATION_MODAL);
+                        llmw.start(configstage);
+                        return;
+                    }
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.err.println("Error loading configuration: " + e.getMessage());
+            }
+        }
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText("Problems with model path");
+        alert.setContentText("ValueError: Provided model path does not exist or is missing. \n Please check your configuration.");
+        alert.showAndWait();
+        showConfigDialog();
+
+    }
+
+    private void showConfigDialog(){
+        LLMConfigDialog dl = new LLMConfigDialog();
+        Stage configstage = new Stage();
+        configstage.initModality(Modality.APPLICATION_MODAL);
+        dl.start(configstage);
+    }
+
+
+    /**
+     * To update the diagram code area on the left side of the screen.
+     * @param msg
+     */
+    public void updateCodeArea(String msg) {
+
+        Platform.runLater(() -> {
+            codeArea.clear();
+            codeArea.appendText(msg);
+        });
     }
 
     /**
@@ -408,16 +495,16 @@ public class APMCreator extends Application {
      */
     private void updateWebView(String mermaid_code) {
 
-        String URI = Objects.requireNonNull(APMCreator.class.getResource("mermaid.min.js")).toString();
+        String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toString();
 
         String htmlTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "    <meta charset=\"UTF-8\">\n" + "    <script src=\"" + URI + "\"></script>\n" + "    <script>\n" + "        mermaid.initialize({ startOnLoad: true, theme: 'default' });\n" + "    </script>\n" + "    <style>\n" + "        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }\n" + "        .mermaid { width: 100%; }\n" + "    </style>\n" + "</head>\n" + "<body>\n" + "    <div class=\"mermaid\">\n" + mermaid_code + "    </div>\n" + "    <script>\n" + "        function updateDiagram(code) {\n" + "            document.querySelector('.mermaid').innerHTML = code;\n" + "            mermaid.init();\n" + "        }\n" + "    </script>\n" + "</body>\n" + "</html>";
         webEngine.loadContent(htmlTemplate);
     }
 
     /**
-     * Open a new story board file.
+     * Open a new storyboard file.
      *
-     * @param stage this is the parent for the FileChooser Dialog
+     * @param stage this is the parent for the FileChooser Dialogue
      */
     private void openFile(Stage stage) {
         FileChooser fileChooser = new FileChooser();
@@ -474,7 +561,7 @@ public class APMCreator extends Application {
      * Every time the content of the codeArea has changed, we have to redraw the
      * diagram.
      */
-    private void updatePreview() {
+    protected void updatePreview() {
         String mermaidCode = codeArea.getText();
         if (mermaidCode == null || mermaidCode.trim().isEmpty()) {
             return;
