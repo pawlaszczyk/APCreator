@@ -1,0 +1,45 @@
+/* CSS file for Mermaid Editor - mermaid-editor.css */
+
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 14px;
+}
+
+.code-area {
+    -fx-font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+.code-area .text {
+    -fx-fill: #383838;
+}
+
+.code-area .keyword {
+    -fx-fill: #7c0097;
+    -fx-font-weight: bold;
+}
+
+.code-area .diagram-type {
+    -fx-fill: #0000ff;
+    -fx-font-weight: bold;
+}
+
+.code-area .arrow {
+    -fx-fill: #b21e1e;
+    -fx-font-weight: bold;
+}
+
+.code-area .bracket {
+    -fx-fill: #ba5c00;
+    -fx-font-weight: bold;
+}
+
+.code-area .string {
+    -fx-fill: #008000;
+}
+
+.code-area .comment {
+    -fx-fill: #808080;
+    -fx-font-style: italic;
+}
