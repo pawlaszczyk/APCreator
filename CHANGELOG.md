@@ -1,2 +1,2 @@
 # What's Changed
-initial version of the tool
+The latest version now supports AI-based storyboard creation.
