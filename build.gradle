@@ -2,7 +2,6 @@
 plugins {
     id 'java'
     id 'java-library'
-    id "org.panteleyev.jpackageplugin" version "1.7.6"
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'org.beryx.runtime' version '1.13.1'
