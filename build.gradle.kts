@@ -3,8 +3,8 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-group = "hsmw.apmcreator"
-version = "1.0-SNAPSHOT"
+group = "apm"
+version = "1.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
