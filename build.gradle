@@ -54,14 +54,6 @@ javafx {
     ]
 }
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'amp.APMCreator'
-        )
-    }
-}
-
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 javadoc.options.encoding = 'UTF-8'
