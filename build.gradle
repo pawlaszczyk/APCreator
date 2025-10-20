@@ -9,7 +9,7 @@ plugins {
 }
 
 group 'apm'
-version '1.2'
+version '1.1'
 
 def currentOs = org.gradle.internal.os.OperatingSystem.current()
 
