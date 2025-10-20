@@ -78,16 +78,16 @@ jar {
     }
 }
 
-tasks.jpackage.doFirst {
-    def apcreatorJpackageDirectory = "build/jpackage/"
-    if (currentOs.windows) {
-        apcreatorJpackageDirectory += "apcreator"
-    } else if (currentOs.linux) {
-        apcreatorJpackageDirectory += "apcreator/lib"
-    } else if (currentOs.macOsX) {
-        apcreatorJpackageDirectory += "apcreator.app/Contents/MacOS"
-    }
-}
+//tasks.jpackage.doFirst {
+//    def apcreatorJpackageDirectory = "build/jpackage/"
+//    if (currentOs.windows) {
+//        apcreatorJpackageDirectory += "apcreator"
+//    } else if (currentOs.linux) {
+//        apcreatorJpackageDirectory += "apcreator/lib"
+//    } else if (currentOs.macOsX) {
+//        apcreatorJpackageDirectory += "apcreator.app/Contents/MacOS"
+//    }
+//}
 
 runtime {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
