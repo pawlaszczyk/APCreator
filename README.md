@@ -82,7 +82,7 @@ The first method will allow a single program to run without having to disable Ga
 Open a terminal and run the following command:
 
 ```bash
-sudo  xattr -dr com.apple.quarantine /Applications/APM Creator.app
+sudo  xattr -dr com.apple.quarantine /Applications/APMCreator.app
 ```
 The app should then start without any further complaints. 
 
