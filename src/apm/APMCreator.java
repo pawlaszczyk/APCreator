@@ -480,7 +480,7 @@ public class APMCreator extends Application {
      */
     private void initializeWebView() {
 
-        String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toString();
+        String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toExternalForm();
 
         String htmlTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "    <meta charset=\"UTF-8\">\n" + "    <script src=\"" + URI + "\"></script>\n" + "    <script>\n" + "        mermaid.initialize({ startOnLoad: true, theme: 'default' });\n" + "    </script>\n" + "    <style>\n" + "        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }\n" + "        .mermaid { width: 100%; }\n" + "    </style>\n" + "</head>\n" + "<body>\n" + "    <div class=\"mermaid\">\n" + "sequenceDiagram \n\n" + "title Example Storyboard\n\n" + "%% This is a basic example for a storyboard\n\n" + "actor A as Alice\n" + "actor B as Bob\n" + " A->>B: send[WhatsApp]\"hello\"\n" + "            Note over A: Wait for an answer.\n" + "            B->>A: send[WhatsApp]\"hi.\"\n" + "            B->>B: idle\n" + "            A->>A: mock location[HOME].\n" + "            A->>B: send[WhatsApp]\"I'm at home now\"\n" + "    </div>\n" + "    <script>\n" + "        function updateDiagram(code) {\n" + "            document.querySelector('.mermaid').innerHTML = code;\n" + "            mermaid.init();\n" + "        }\n" + "    </script>\n" + "</body>\n" + "</html>";
 
@@ -495,7 +495,7 @@ public class APMCreator extends Application {
      */
     private void updateWebView(String mermaid_code) {
 
-        String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toString();
+        String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toExternalForm();
 
         String htmlTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "    <meta charset=\"UTF-8\">\n" + "    <script src=\"" + URI + "\"></script>\n" + "    <script>\n" + "        mermaid.initialize({ startOnLoad: true, theme: 'default' });\n" + "    </script>\n" + "    <style>\n" + "        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }\n" + "        .mermaid { width: 100%; }\n" + "    </style>\n" + "</head>\n" + "<body>\n" + "    <div class=\"mermaid\">\n" + mermaid_code + "    </div>\n" + "    <script>\n" + "        function updateDiagram(code) {\n" + "            document.querySelector('.mermaid').innerHTML = code;\n" + "            mermaid.init();\n" + "        }\n" + "    </script>\n" + "</body>\n" + "</html>";
         webEngine.loadContent(htmlTemplate);
