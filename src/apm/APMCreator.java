@@ -488,7 +488,7 @@ public class APMCreator extends Application {
     }
 
     /**
-     * Creates new temporary html-page with the instructions from
+     * Creates new temporary HTML page with the instructions from
      * the <code>codeArea</code>.
      *
      * @param mermaid_code a string containing the diagram text
