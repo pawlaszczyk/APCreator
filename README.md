@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/resources/filmrole.png?raw=true" alt="APM Screenshot"/>
+  <img src="resources/filmrole.png?raw=true" alt="APM Screenshot"/>
 </p>
 
 ### APM-Creator - The Storyboard Editor for AutoPodMobile (APM)
