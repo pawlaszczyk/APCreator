@@ -496,6 +496,7 @@ public class APMCreator extends Application {
     private void updateWebView(String mermaid_code) {
 
         String URI = Objects.requireNonNull(APMCreator.class.getResource("/mermaid.min.js")).toExternalForm();
+        URI = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js";
         String htmlTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "    <meta charset=\"UTF-8\">\n" + "    <script src=\"" + URI + "\"></script>\n" + "    <script>\n" + "        mermaid.initialize({ startOnLoad: true, theme: 'default' });\n" + "    </script>\n" + "    <style>\n" + "        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }\n" + "        .mermaid { width: 100%; }\n" + "    </style>\n" + "</head>\n" + "<body>\n" + "    <div class=\"mermaid\">\n" + mermaid_code + "    </div>\n" + "    <script>\n" + "        function updateDiagram(code) {\n" + "            document.querySelector('.mermaid').innerHTML = code;\n" + "            mermaid.init();\n" + "        }\n" + "    </script>\n" + "</body>\n" + "</html>";
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(htmlTemplate);
